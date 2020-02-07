@@ -21,7 +21,7 @@ function verif()
     $question = $_POST["question"];
 // Tableaux des valeurs du formulaire
     $true = [];
-    $false = [];
+    $false = null;
 
 // Je verifie que le nom est valide
     if (preg_match($alpha, $nom)) {
@@ -99,8 +99,10 @@ function verif()
     };
     // foreach ($false as $i=>$value)
     //     echo $i.':'.$value.'<br>';
-    if(COUNT($false)==0){
-        foreach ($true as $i=>$value)
-            echo $i.':'.$value.'<br>';
-}
+    // foreach ($true as $i=>$value)
+    //     echo $i.':'.$value.'<br>';
+
+        return $false;
+        return $true;
+
 };

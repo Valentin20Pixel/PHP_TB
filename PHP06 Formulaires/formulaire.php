@@ -2,7 +2,7 @@
 require_once("script.php");
 if($_POST["envoi"]){
   $ver=verif();
-}
+};
 ?>
 <html lang="fr">
 <head>
@@ -43,8 +43,9 @@ if($_POST["envoi"]){
 <!-- Fin de Navbar -->
     <hr>
     <p id="zone">* Ces zones sont obligatoire </p>
+    <?php  var_dump($ver); ?>
 <!-- Début du formulaire -->
-    <form action="#" method="POST">
+    <form action="<?php if($ver!==null){echo "#";}else{echo "resultatPHP.php";}; ?>" method="POST">
       <fieldset>
         <legend>Vos coordonnées</legend>
         <div class="form-row">
