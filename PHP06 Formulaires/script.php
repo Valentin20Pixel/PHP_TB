@@ -1,6 +1,12 @@
 <?php
-function verif()
-{
+
+require_once("formulaire.php");
+
+if (!empty($nom))
+    var_dump($vrai);
+
+function verif(){
+
 // Je déclare mes RegEx 
     $alpha = "/(^[A-Z]+[A-Za-zéèêâîïëûçŒœæ\-\s]+$)/";
     $adresse = "/(^[0-9]+[A-za-zéèêâîïëûçŒœæ\-\s]+$)|^$/";
@@ -10,6 +16,7 @@ function verif()
     $alphaN = "/(^[A-Z]+[A-Za-zéèêâîïëûçŒœæ\-\s]+$)|^$/";
     $alphaQ = "/([A-Za-zéèêâîïëûçŒœæ\-\s]+$)/";
 // Je vais chercher mes variables 
+    global $false;
     $nom = $_POST["nom"];
     $prenom = $_POST["prenom"];
     $naiss = $_POST["naissance"];
@@ -21,21 +28,23 @@ function verif()
     $question = $_POST["question"];
 // Tableaux des valeurs du formulaire
     $true = [];
-    $false = null;
-
+    $false = [];
 // Je verifie que le nom est valide
-    if (preg_match($alpha, $nom)) {
-        $true["nom"] = $nom;
-    } else if (empty($nom)){
-        $false["Errnom"]="Cette zone est obligatoire.";
-    } else{
-        $false["Errnom"] = "Utilisez que des caractères alphabétiques.";
+    if (isset($_POST["nom"])) {
+        if (preg_match($alpha, $nom)) {
+            $true["nom"] = $nom;
+        } else if (empty($nom)) {
+            $false["Errnom"] = "Cette zone est obligatoire.";
+        } else {
+            $false["Errnom"] = "Utilisez que des caractères alphabétiques.";
+        };
     };
 // Je verifie que le prenom est valide
+
     if (preg_match($alpha, $prenom)) {
         $true["prenom"] = $prenom;
-    } else if (empty($prenom)){
-        $false["Errprenom"]="Cette zone est obligatoire.";
+    } else if (empty($prenom)) {
+        $false["Errprenom"] = "Cette zone est obligatoire.";
     } else {
         $false["Errprenom"] = "Utilisez que des caractères alphabétiques.";
     };
@@ -48,8 +57,8 @@ function verif()
 // Je verifie que la date de naissance est valide
     if (preg_match($date, $naiss)) {
         $true["naissance"] = $naiss;
-    } else if (empty( $naiss)) {
-        $false["Errnaissance"]="Cette zone est obligatoire.";
+    } else if (empty($naiss)) {
+        $false["Errnaissance"] = "Cette zone est obligatoire.";
     } else {
         $false["Errnaissance"] = "Date de naissance non valide.";
     };
@@ -75,7 +84,7 @@ function verif()
     if (preg_match($mail, $email)) {
         $true["mail"] = $email;
     } else if (empty($email)) {
-        $false["Errmail"]="Cette zone est obligatoire.";
+        $false["Errmail"] = "Cette zone est obligatoire.";
     } else {
         $false["Errmail"] = "Adresse mail non valide.";
     };
@@ -89,20 +98,61 @@ function verif()
     if (preg_match($alphaQ, $question)) {
         $true["question"] = $question;
     } else if (empty($question)) {
-        $false["Errquestion"]="Cette zone est obligatoire.";
+        $false["Errquestion"] = "Cette zone est obligatoire.";
     } else {
         $false["Errquestion"] = "Utilisez que des caractères alphanumérique.";
     };
 // Je verifie que le formulaire soit bien coché
-    if (!isset($_POST["check"])) { 
+    if (!isset($_POST["check"])) {
         $false["Erraccpt"] = "Cette zone est obligatoire. Cochez pour valider le formulaire.";
     };
-    // foreach ($false as $i=>$value)
-    //     echo $i.':'.$value.'<br>';
-    // foreach ($true as $i=>$value)
-    //     echo $i.':'.$value.'<br>';
+// Je retourne $false
+    return $false;
+};
 
-        return $false;
-        return $true;
+function coord(){
 
+    global $vrai, $nom;
+    $nom = $_POST["nom"];
+    $prenom = $_POST["prenom"];
+    $naiss = $_POST["naissance"];
+    $CP = $_POST["code"];
+    $adrs = $_POST["adresse"];
+    $city = $_POST["ville"];
+    $email = $_POST["email"];
+    $sujet = $_POST["choix"];
+    $question = $_POST["question"];
+    $vrai = [];
+
+    if (isset($nom))
+        $vrai["nom"] = $nom;
+
+    if (isset($prenom))
+        $vrai["prenom"] = $prenom;
+
+    if (isset($sex))
+        $vrai["sex"] = $_POST["sex"];
+
+    if (isset($naiss))
+        $vrai["naissance"] = $naiss;
+
+    if (isset($CP))
+        $vrai["code"] = $CP;
+
+    if (isset($adrs))
+        $vrai["adrs"] = $adrs;
+
+    if (isset($city))
+        $vrai["ville"] = $city;
+
+    if (isset($email))
+        $vrai["mail"] = $email;
+
+    if (isset($sujet))
+        $vrai["sujet"] = $sujet;
+
+    if (isset($question))
+        $vrai["question"] = $question;
+
+    return $vrai;
 };
