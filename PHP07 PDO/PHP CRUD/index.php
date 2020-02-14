@@ -23,5 +23,4 @@
 <!-- Mentions Legales -->
 
 </div>
-</body>
 <?php include("footer.php"); ?>

@@ -106,7 +106,3 @@ if (isset($_POST["envoi"])) {
       </div>
     </form>
     <?php include("footer.php"); ?>
-
-</body>
-
-</html>

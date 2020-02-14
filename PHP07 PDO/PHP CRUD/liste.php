@@ -1,28 +1,38 @@
-<!DOCTYPE html>
-	<html lang="fr">
-	<head>
-	  <meta charset="UTF-8">
-    <title>liste.php</title>
-<?php 
-require "connexion_bdd.php";
-$db = connexionBase();
-$pro_id = $_GET["pro_id"];
-$requete = "SELECT * FROM produits WHERE pro_id".$pro_id;
-
+<?php include("header.php"); ?>
+<body> 
+<div class="container">
+<?php
+require "connexion_bdd.php"; // Inclusion de notre bibliothèque de fonctions
+$db = connexionBase(); // Appel de la fonction de connexion
+$requete = "SELECT pro_id, pro_ref, pro_libelle FROM produits WHERE ISNULL(pro_bloque) ORDER BY pro_d_ajout DESC";
+ 
 $result = $db->query($requete);
-
-// Renvoi de l'enregistrement sous forme d'un objet
-$produit = $result->fetch(PDO::FETCH_OBJ);
+ 
+if (!$result) 
+{
+    $tableauErreurs = $db->errorInfo();
+    echo $tableauErreur[2]; 
+    die("Erreur dans la requête");
+}
+ 
+if ($result->rowCount() == 0) 
+{
+   // Pas d'enregistrement
+   die("La table est vide");
+}
+ 
+echo "<table>";
+ 
+while ($row = $result->fetch(PDO::FETCH_OBJ))
+{
+    echo"<tr>";
+    echo"<td>".$row->pro_id."</td>";
+    echo"<td>".$row->pro_ref."</td>";
+    echo"<td><a href=\"detail.php?id=".$row->pro_id."\" title=\"".$row->pro_libelle."\"></a></td>";
+    echo"</tr>";
+}
+ 
+echo "</table>"; 
 ?>
-
-</head>
-<body>
-<?php echo $produit->pro_libelle; ?> référence <?php echo $produit->pro_ref; ?>
-<br>
-<?php echo $produit->pro_description; ?>
-<br>
-<?php echo $produit->pro_prix; ?>
 </body>
-</html>
-
-<!-- <a href="detail.php?pro_id=<?php echo $row->pro_id; ?>" title="Modifier">Modifier</a> -->
+<?php include("footer.php"); ?>

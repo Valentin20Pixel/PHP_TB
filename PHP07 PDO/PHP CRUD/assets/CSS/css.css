@@ -2,3 +2,6 @@
     font-size: 0.75vw;
     color: red;
 }
+td,tr{
+    border: black 2px solid;
+}
